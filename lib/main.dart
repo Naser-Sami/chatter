@@ -20,7 +20,7 @@ Future<void> main() async {
   await Hive.openBox('settings'); // Open a box for theme preferences
 
   // Ensure Service Locator is Started
-  DI().init();
+  await DI().init();
 
   runApp(
     MultiBlocProvider(

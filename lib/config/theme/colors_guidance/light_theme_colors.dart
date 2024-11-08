@@ -37,20 +37,18 @@ class LightThemeColors {
 
   static const outline = Color(0xFF79747E);
   static const background = Color(0xFFFEF7FF);
-  static const onBackground = Color(0xFF363636);
+  static const onBackground = Color(0xFF1D1B20);
 
-  static const scaffoldBackground = Color(0xFFE7ECEF);
-
-  static const surface = Color(0xFFE7ECEF);
+  static const surface = Color(0xFFFEF7FF);
   static const onSurface = Color(0xFF1D1B20);
   static const surfaceVariant = Color(0xFFE7E0EC);
   static const onSurfaceVariant = Color(0xFF49454F);
 
   static const inverseSurface = Color(0xFF322F35);
   static const inverseOnSurface = Color(0xFFF5EFF7);
-  static const inversePrimary = Color(0xFFF7A21E);
+  static const inversePrimary = Color(0xFFD0BCFF);
 
-  static const shadow = Color(0xFFA7A9AF);
+  static const shadow = Color(0xFF000000);
 
   static const surfaceTint = Color(0xFF6750A4);
   static const outlineVariant = Color(0xFFCAC4D0);
@@ -67,6 +65,5 @@ class LightThemeColors {
   static const surfaceBright = Color(0xFFFEF7FF);
 
   static const text = Color(0xFF000000);
-  static const red = Color(0xFFD32D20);
-  static const green = Color.fromARGB(255, 93, 155, 32);
+  static const red = Color(0xFFFF6363);
 }

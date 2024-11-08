@@ -16,6 +16,10 @@ class DI {
       () => ThemeCubit(),
     );
 
+    sl.registerLazySingleton<BottomNavigationBarCubit>(
+      () => BottomNavigationBarCubit(),
+    );
+
     // LOCAL STORAGE
   }
 }
