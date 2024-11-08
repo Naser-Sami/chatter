@@ -30,7 +30,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.globe),
-              label: 'Global',
+              label: 'People',
             ),
             BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.settings_solid),

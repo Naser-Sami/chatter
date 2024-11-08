@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Files
-import 'config/_config.dart';
+import '/config/_config.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

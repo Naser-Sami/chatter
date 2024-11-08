@@ -46,9 +46,9 @@ class HomeScreenState extends State<HomeScreen> {
         onPageChanged: context.read<BottomNavigationBarCubit>().changeIndex,
         children: const [
           ChatScreen(),
-          Center(child: Text('Group')),
-          Center(child: Text('Global')),
-          Center(child: Text('Setting')),
+          GroupScreen(),
+          PeopleScreen(),
+          SettingsScreen(),
         ],
       ),
       bottomNavigationBar: const BottomNavigationBarWidget(),
