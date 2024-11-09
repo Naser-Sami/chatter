@@ -94,6 +94,9 @@ dependencies:
   # Rounded Loading Button
   rounded_loading_button_plus: ^3.0.1
 
+  # Toast
+  delightful_toast: ^1.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

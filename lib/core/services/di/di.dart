@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 
 import '/config/_config.dart';
@@ -30,5 +33,15 @@ class DI {
     );
 
     // LOCAL STORAGE
+
+    // Firebase
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    sl.registerLazySingleton<FirebaseAuth>(() => auth);
+
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    sl.registerLazySingleton<FirebaseFirestore>(() => firestore);
+
+    final FirebaseStorage storage = FirebaseStorage.instance;
+    sl.registerLazySingleton<FirebaseStorage>(() => storage);
   }
 }
