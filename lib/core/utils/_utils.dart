@@ -6,3 +6,4 @@ export 'validator/_validator.dart';
 export 'device/_device_utility.dart';
 export 'formatters/_formatters.dart';
 export 'extensions/_extensions.dart';
+export 'exceptions/_exceptions.dart';
