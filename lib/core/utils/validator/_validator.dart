@@ -50,14 +50,15 @@ class TValidator {
       return 'Phone number is required.';
     }
 
-    final phoneRegExp = RegExp(r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$');
+    final phoneRegExp = RegExp(r'^\+?[1-9]\d{8,14}$'); // Validate international format, allowing + for country code
 
     if (!phoneRegExp.hasMatch(value)) {
-      return 'Invalid phone number format.';
+      print('invalid phone number');
+      return 'Invalid phone number.';
     }
 
+    // Return null if validation passes
     return null;
   }
-
   // Add more custom validators as needed for your specific requirements.
 }

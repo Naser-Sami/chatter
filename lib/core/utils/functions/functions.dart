@@ -1,9 +1,12 @@
 // Packages
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 // Files
-import '/core/utils/_utils.dart';
+import '/core/_core.dart';
+import '/config/_config.dart';
 
 class TFunctions {
   TFunctions._();
@@ -54,4 +57,21 @@ class TFunctions {
       return '';
     }
   }
+
+  // Show Country Picker Bottom Sheet
+  static void showCountryPickerBottomSheet(BuildContext context) => showCountryPicker(
+        context: context,
+        onSelect: context.read<CountryPickerCubit>().onSelect,
+        showPhoneCode: true,
+        countryListTheme: CountryListThemeData(
+          flagSize: TSize.s24,
+          padding: const EdgeInsets.all(TPadding.p24),
+          textStyle: context.textTheme.bodyMedium?.copyWith(
+            color: context.theme.colorScheme.onSurface,
+            fontWeight: FontWeight.w500,
+          ),
+          backgroundColor: context.theme.colorScheme.surfaceContainerLow,
+          bottomSheetHeight: MediaQuery.of(context).size.height * 0.70,
+        ),
+      );
 }

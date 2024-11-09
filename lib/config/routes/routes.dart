@@ -16,9 +16,9 @@ final router = GoRouter(
   },
   routes: [
     GoRoute(
-      name: 'home',
+      name: 'login',
       path: '/',
-      pageBuilder: (context, state) => fadeTransitionPage(context, state, const HomeScreen()),
+      pageBuilder: (context, state) => fadeTransitionPage(context, state, const LoginScreen()),
       redirect: (context, state) {
         return null;
       },

@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 
 import '/config/_config.dart';
+import '/features/_features.dart';
 
 // Global Variable
 // Initialize GetIt
@@ -18,6 +19,14 @@ class DI {
 
     sl.registerLazySingleton<BottomNavigationBarCubit>(
       () => BottomNavigationBarCubit(),
+    );
+
+    sl.registerLazySingleton<CountryPickerCubit>(
+      () => CountryPickerCubit(),
+    );
+
+    sl.registerLazySingleton<LoginCubit>(
+      () => LoginCubit(),
     );
 
     // LOCAL STORAGE
