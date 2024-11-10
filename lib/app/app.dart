@@ -11,14 +11,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeCubit, ThemeMode>(
       builder: (context, state) {
-        return MaterialApp.router(
-          title: 'C H A T T E R',
-          debugShowCheckedModeBanner: false,
-          themeMode: state,
-          theme: lightTheme,
-          darkTheme: darkTheme,
-          scrollBehavior: scrollBehavior,
-          routerConfig: router,
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: MaterialApp.router(
+            title: 'C H A T T E R',
+            debugShowCheckedModeBanner: false,
+            themeMode: state,
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            scrollBehavior: scrollBehavior,
+            routerConfig: router,
+          ),
         );
       },
     );

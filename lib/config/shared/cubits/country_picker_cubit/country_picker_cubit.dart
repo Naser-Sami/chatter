@@ -5,7 +5,7 @@ class CountryPickerCubit extends Cubit<Country> {
   CountryPickerCubit()
       : super(
           Country(
-            phoneCode: '970',
+            phoneCode: '+970',
             countryCode: 'PS',
             e164Sc: 0,
             geographic: true,

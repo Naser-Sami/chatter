@@ -18,19 +18,17 @@ Future<void> main() async {
   // It is safe to call this function when running on mobile or desktop as well.
   setPathUrlStrategy();
 
+  // -- Initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   // -- Initialize Hive
   await Hive.initFlutter();
   await Hive.openBox('settings');
 
-  Future.wait([
-    // -- Initialize Firebase
-    Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    ),
-
-    // Ensure Service Locator is Started
-    DI().init(),
-  ]);
+  // -- Initialize GetIt
+  await DI().init();
 
   runApp(
     MultiBlocProvider(

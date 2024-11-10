@@ -12,13 +12,20 @@ class FirebaseAuthService implements IFirebaseAuthService {
 
   @override
   Future<void> signInWithPhoneNumber(String phoneNumber) async {
-    await _auth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      verificationCompleted: _verificationCompleted,
-      verificationFailed: _verificationFailed,
-      codeSent: _codeSent,
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
+    try {
+      await _auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: _verificationCompleted,
+        verificationFailed: _verificationFailed,
+        codeSent: _codeSent,
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
+    } catch (e) {
+      THelperFunctions.showToastBar(
+        NavigationService.navigatorKey.currentContext!,
+        TextWidget(e.toString()),
+      );
+    }
   }
 
   Future<void> _verificationCompleted(PhoneAuthCredential credential) async {
@@ -35,6 +42,9 @@ class FirebaseAuthService implements IFirebaseAuthService {
   }
 
   void _codeSent(String verificationId, int? resendToken) async {
+    print('Navigate to the SMS screen');
+    print('verificationId: $verificationId');
+
     // Update the UI - wait for the user to enter the SMS code
     String smsCode = 'xxxx';
 

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ class _LoginFormsWidgetState extends State<LoginFormsWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final TextEditingController _phoneNumberController;
   late final RoundedLoadingButtonController _btnController;
+  String phoneCode = '';
 
   @override
   void initState() {
@@ -61,6 +63,8 @@ class _LoginFormsWidgetState extends State<LoginFormsWidget> {
               onTap: () => TFunctions.showCountryPickerBottomSheet(context),
               child: BlocBuilder<CountryPickerCubit, Country>(
                 builder: (context, state) {
+                  phoneCode = state.phoneCode;
+
                   return TextWidget(
                     "${state.flagEmoji} ${state.phoneCode}",
                     style: context.textTheme.labelLarge?.apply(
@@ -71,16 +75,53 @@ class _LoginFormsWidgetState extends State<LoginFormsWidget> {
               ),
             ),
           ),
-          suffixIcon: BlocBuilder<LoginCubit, LoginState>(
+          suffixIcon: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
-              bool? isPhoneValid = state.isPhoneValid;
+              bool? isPhoneValid = context.watch<LoginCubit>().state.isPhoneValid;
 
               if (isPhoneValid == null || isPhoneValid == false) {
                 return const SizedBox.shrink();
               }
 
+              if (state is LoginLoading) {
+                return const SizedBox(
+                  width: TSize.s48,
+                  height: TSize.s48,
+                  child: CircularProgressIndicator(
+                    color: Colors.green,
+                  ),
+                );
+              }
+
+              if (state is LoginFailure) {
+                return IconButton(
+                  onPressed: () {
+                    _btnController.reset();
+                    _formKey.currentState?.validate();
+                  },
+                  icon: const Icon(
+                    Icons.refresh,
+                    color: Colors.red,
+                  ),
+                );
+              }
+
               return IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  // phone number
+                  final phoneNumber = '$phoneCode${_phoneNumberController.text}';
+
+                  if (kDebugMode) {
+                    print('phoneNumber: $phoneNumber');
+                  }
+
+                  // Sing in with phone number
+                  context.read<AuthenticationBloc>().add(
+                        LoginButtonPressedEvent(
+                          phoneNumber: phoneNumber,
+                        ),
+                      );
+                },
                 icon: const CircleAvatar(
                   radius: 14,
                   backgroundColor: Colors.green,

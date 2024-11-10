@@ -14,6 +14,10 @@ class DI {
   Future<void> init() async {
     // BLOC's
 
+    sl.registerLazySingleton<AuthenticationBloc>(
+      () => AuthenticationBloc(),
+    );
+
     // CUBIT's
 
     sl.registerLazySingleton<ThemeCubit>(
@@ -35,6 +39,7 @@ class DI {
     // LOCAL STORAGE
 
     // Firebase
+
     final FirebaseAuth auth = FirebaseAuth.instance;
     sl.registerLazySingleton<FirebaseAuth>(() => auth);
 
@@ -43,5 +48,11 @@ class DI {
 
     final FirebaseStorage storage = FirebaseStorage.instance;
     sl.registerLazySingleton<FirebaseStorage>(() => storage);
+
+    // REPOSITORIES
+
+    sl.registerLazySingleton<IFirebaseAuthService>(
+      () => FirebaseAuthService(),
+    );
   }
 }
