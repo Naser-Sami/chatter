@@ -1,5 +1,6 @@
+import 'package:chatter/core/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '/core/_core.dart';
 import '/config/_config.dart';
@@ -10,17 +11,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => sl<AuthenticationBloc>(),
-        ),
-        BlocProvider(
-          create: (context) => sl<LoginCubit>(),
-        ),
-      ],
-      child: const LoginScreenBody(),
-    );
+    return const LoginScreenBody();
   }
 }
 
@@ -54,6 +45,14 @@ class LoginScreenBody extends StatelessWidget {
                 ),
                 TSize.s48.toHeight,
                 const LoginFormsWidget(),
+                TSize.s48.toHeight,
+                TextButton(
+                  onPressed: () => context.go('/otp-verification'),
+                  child: TextWidget(
+                    "Send Code",
+                    style: context.textTheme.bodyMedium,
+                  ),
+                ),
               ],
             ),
           ),

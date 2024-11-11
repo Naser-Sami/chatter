@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,16 +82,6 @@ class _LoginFormsWidgetState extends State<LoginFormsWidget> {
                 return const SizedBox.shrink();
               }
 
-              if (state is LoginLoading) {
-                return const SizedBox(
-                  width: TSize.s48,
-                  height: TSize.s48,
-                  child: CircularProgressIndicator(
-                    color: Colors.green,
-                  ),
-                );
-              }
-
               if (state is LoginFailure) {
                 return IconButton(
                   onPressed: () {
@@ -118,6 +107,7 @@ class _LoginFormsWidgetState extends State<LoginFormsWidget> {
                 onPressed: () {
                   // phone number
                   final phoneNumber = '+$phoneCode${_phoneNumberController.text}';
+                  context.read<LoginCubit>().setPhoneNumber(phoneNumber);
 
                   // Sing in with phone number
                   context.read<AuthenticationBloc>().add(

@@ -1,3 +1,4 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '/core/_core.dart';
@@ -18,13 +19,33 @@ final router = GoRouter(
     GoRoute(
       name: 'login',
       path: '/',
-      pageBuilder: (context, state) => fadeTransitionPage(context, state, const LoginScreen()),
-      redirect: (context, state) {
-        return null;
-      },
-      // routes: <RouteBase>[
-      //   // Add child routes
-      // ],
+      pageBuilder: (context, state) => fadeTransitionPage(
+        context,
+        state,
+        MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => sl<AuthenticationBloc>(),
+            ),
+            BlocProvider(
+              create: (context) => sl<LoginCubit>(),
+            ),
+          ],
+          child: const LoginScreen(),
+        ),
+      ),
+    ),
+    GoRoute(
+      name: 'otp-verification',
+      path: '/otp-verification',
+      pageBuilder: (context, state) => fadeTransitionPage(
+        context,
+        state,
+        BlocProvider.value(
+          value: sl<LoginCubit>(),
+          child: const OtpScreen(),
+        ),
+      ),
     ),
   ],
 );

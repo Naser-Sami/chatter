@@ -9,9 +9,14 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit()
       : super(
           const LoginState(
+            phoneNumber: '+962795900291',
             isPhoneValid: null,
           ),
         );
+
+  void setPhoneNumber(String? phoneNumber) {
+    emit(state.copyWith(phoneNumber: phoneNumber));
+  }
 
   void phoneNumberChanged(String? phoneNumber) {
     bool? isValid;
