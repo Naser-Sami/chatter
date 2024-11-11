@@ -53,12 +53,12 @@ class TValidator {
     final phoneRegExp = RegExp(r'^\+?[1-9]\d{8,14}$'); // Validate international format, allowing + for country code
 
     if (!phoneRegExp.hasMatch(value)) {
-      print('invalid phone number');
       return 'Invalid phone number.';
     }
 
     // Return null if validation passes
     return null;
   }
+
   // Add more custom validators as needed for your specific requirements.
 }

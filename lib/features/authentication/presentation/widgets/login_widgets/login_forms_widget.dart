@@ -106,14 +106,18 @@ class _LoginFormsWidgetState extends State<LoginFormsWidget> {
                 );
               }
 
+              if (state is LoginLoading) {
+                return const SizedBox(
+                  width: TSize.s48,
+                  height: TSize.s48,
+                  child: CircularProgressIndicator(),
+                );
+              }
+
               return IconButton(
                 onPressed: () {
                   // phone number
-                  final phoneNumber = '$phoneCode${_phoneNumberController.text}';
-
-                  if (kDebugMode) {
-                    print('phoneNumber: $phoneNumber');
-                  }
+                  final phoneNumber = '+$phoneCode${_phoneNumberController.text}';
 
                   // Sing in with phone number
                   context.read<AuthenticationBloc>().add(

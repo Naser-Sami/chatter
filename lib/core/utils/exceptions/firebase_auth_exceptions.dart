@@ -9,6 +9,8 @@ class TFirebaseAuthException implements Exception {
   /// Get the corresponding error message based on the error code.
   String get message {
     switch (code) {
+      case 'invalid-phone-number':
+        return 'The phone number provided is invalid. Please enter a valid phone number.';
       case 'email-already-in-use':
         return 'The email address is already registered. Please use a different email.';
       case 'invalid-email':

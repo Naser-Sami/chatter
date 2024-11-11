@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 import '/core/_core.dart';
 import '/config/_config.dart';
@@ -23,6 +24,7 @@ class FirebaseAuthService implements IFirebaseAuthService {
     } catch (e) {
       THelperFunctions.showToastBar(
         NavigationService.navigatorKey.currentContext!,
+        color: Theme.of(NavigationService.navigatorKey.currentContext!).colorScheme.errorContainer,
         TextWidget(e.toString()),
       );
     }
@@ -42,24 +44,29 @@ class FirebaseAuthService implements IFirebaseAuthService {
   }
 
   void _codeSent(String verificationId, int? resendToken) async {
-    print('Navigate to the SMS screen');
-    print('verificationId: $verificationId');
+    try {
+      // Update the UI - wait for the user to enter the SMS code
+      String smsCode = 'xxxx';
 
-    // Update the UI - wait for the user to enter the SMS code
-    String smsCode = 'xxxx';
+      // Create a PhoneAuthCredential with the code
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: smsCode,
+      );
 
-    // Create a PhoneAuthCredential with the code
-    PhoneAuthCredential credential = PhoneAuthProvider.credential(
-      verificationId: verificationId,
-      smsCode: smsCode,
-    );
+      THelperFunctions.showToastBar(
+        NavigationService.navigatorKey.currentContext!,
+        const TextWidget("Code has been sent!"),
+      );
 
-    THelperFunctions.showToastBar(
-      NavigationService.navigatorKey.currentContext!,
-      const TextWidget("Code has been sent!"),
-    );
-
-    // Sign the user in (or link) with the credential
-    await _auth.signInWithCredential(credential);
+      // Sign the user in (or link) with the credential
+      await _auth.signInWithCredential(credential);
+    } catch (e) {
+      THelperFunctions.showToastBar(
+        NavigationService.navigatorKey.currentContext!,
+        color: Theme.of(NavigationService.navigatorKey.currentContext!).colorScheme.errorContainer,
+        TextWidget(e.toString()),
+      );
+    }
   }
 }

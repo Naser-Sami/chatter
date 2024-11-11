@@ -15,7 +15,7 @@ class THelperFunctions {
         title: title,
         subtitle: subtitle,
         leading: leading,
-        color: color ?? Theme.of(context).colorScheme.secondary,
+        color: color ?? Theme.of(context).colorScheme.primaryContainer,
         shadowColor: shadowColor,
         trailing: trailing,
         onTap: onTap,
