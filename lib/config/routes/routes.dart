@@ -16,6 +16,7 @@ final router = GoRouter(
     return null;
   },
   routes: [
+    // Login Screen
     GoRoute(
       name: 'Login',
       path: Constants.routeLogin,
@@ -35,21 +36,25 @@ final router = GoRouter(
         ),
       ),
     ),
+
+    // O.T.P Screen
     GoRoute(
       name: 'O.T.P',
-      path: Constants.otpScreen,
+      path: Constants.routeOtpScreen,
       pageBuilder: (context, state) => fadeTransitionPage(
         context,
         state,
         BlocProvider.value(
-          value: sl<LoginCubit>(),
+          value: AuthenticationBloc(),
           child: const OtpScreen(),
         ),
       ),
     ),
+
+    // User Information Screen
     GoRoute(
       name: 'User-Information',
-      path: Constants.userInformationScreen,
+      path: Constants.routeUserInformationScreen,
       pageBuilder: (context, state) {
         // final data = state.extra as Map<String, dynamic>;
 
@@ -65,6 +70,17 @@ final router = GoRouter(
           ),
         );
       },
+    ),
+
+    // Home Screen
+    GoRoute(
+      name: 'Home',
+      path: Constants.routeHome,
+      pageBuilder: (context, state) => fadeTransitionPage(
+        context,
+        state,
+        const HomeScreen(),
+      ),
     ),
   ],
 );

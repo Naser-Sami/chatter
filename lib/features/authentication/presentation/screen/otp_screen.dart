@@ -40,6 +40,8 @@ class OtpScreen extends StatelessWidget {
               TSize.s48.toHeight,
               const PinputWidget(),
               TSize.s48.toHeight,
+
+              // Resend Code
               TextWidget(
                 "Did not receive the code?",
                 style: Theme.of(context).textTheme.titleMedium,

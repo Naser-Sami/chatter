@@ -29,6 +29,25 @@ class UserModel {
     required this.sentFriendRequestsUid,
   });
 
+  // empty constructor
+  static UserModel empty() {
+    return UserModel(
+      uid: '',
+      name: '',
+      phoneNumber: '',
+      image: '',
+      token: '',
+      aboutMe: '',
+      lastSeen: '',
+      createdAt: '',
+      isOnline: false,
+      friendsUid: [],
+      friendRequestsUid: [],
+      sentFriendRequestsUid: [],
+    );
+  }
+
+  // copy with method
   UserModel copyWith({
     String? uid,
     String? name,
@@ -59,6 +78,7 @@ class UserModel {
     );
   }
 
+  // to map
   Map<String, dynamic> toMap() {
     return {
       'uid': uid,
@@ -73,6 +93,7 @@ class UserModel {
     };
   }
 
+  // from map
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       uid: map['uid'] ?? '',
@@ -90,9 +111,11 @@ class UserModel {
     );
   }
 
+  // to json and from json
   String toJson() => json.encode(toMap());
   factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
 
+  // to string
   @override
   String toString() {
     return 'UserModel(uid: $uid, name: $name, phoneNumber: $phoneNumber, image: $image, token: $token, aboutMe: $aboutMe, lastSeen: $lastSeen, createdAt: $createdAt, isOnline: $isOnline, friendsUid: $friendsUid, friendRequestsUid: $friendRequestsUid, sentFriendRequestsUid: $sentFriendRequestsUid)';

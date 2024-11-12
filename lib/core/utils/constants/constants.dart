@@ -37,6 +37,9 @@ class Constants {
   static const String firebaseAuthDomain = "";
   static const String firebaseDatabaseUrl = "";
 
+  // Firestore Config
+  static const String firestoreCollectionUsers = "users";
+
   // Routes Config
   static const String routeSplash = "/";
   static const String routeLogin = "/login";
@@ -45,13 +48,18 @@ class Constants {
   static const String routeSettings = "/settings";
   static const String routeProfile = "/profile";
   static const String routeChatRoom = "/chatroom";
-  static const String otpScreen = "/otp";
-  static const String userInformationScreen = "/user-information";
+  static const String routeOtpScreen = "/otp";
+  static const String routeUserInformationScreen = "/user-information";
 
   // Config
 
   static const String verificationId = "verificationId";
   static const String phoneNumber = "phoneNumber";
+
+  // Local Storage Config
+  static const String hiveBoxUser = "hiveBoxUser";
+  static const String hiveBoxUserKey = "hiveBoxUserKey";
+  static const String hiveBoxChat = "hiveBoxChat";
 
   // Local Storage Config
 

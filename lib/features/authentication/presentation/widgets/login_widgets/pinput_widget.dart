@@ -1,6 +1,7 @@
 import 'package:pinput/pinput.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '/core/_core.dart';
 import '/config/_config.dart';
@@ -16,22 +17,16 @@ class PinputWidget extends StatefulWidget {
 class PinputWidgetState extends State<PinputWidget> {
   late final TextEditingController _pinController;
   late final FocusNode _pinFocus;
-  late final String verificationId;
+  String verificationId = '';
   String? _otpCode;
 
   @override
   void initState() {
     super.initState();
-
-    // get extra data from the GoRouter state
-    getExtraData();
-
-    // Initialize the TextEditingController and FocusNode
     _pinController = TextEditingController();
     _pinFocus = FocusNode();
   }
 
-  // get extra data from the GoRouter state
   void getExtraData() {
     final goRouteState = GoRouterState.of(context).extra as Map<String, dynamic>;
     verificationId = goRouteState[Constants.verificationId];
@@ -41,40 +36,74 @@ class PinputWidgetState extends State<PinputWidget> {
     setState(() {
       _otpCode = pin;
     });
-
-    // verify otp code
     verifyOtpCode();
   }
 
   void verifyOtpCode() {
+    getExtraData();
     if (_otpCode != null) {
-      sl<IFirebaseAuthService>().verifyOtpCode(
-        otpCode: _otpCode!,
-        verificationId: verificationId,
-      );
+      context.read<AuthenticationBloc>().add(
+            VerifyOtpCodeEvent(
+              otpCode: _otpCode!,
+              verificationId: verificationId,
+            ),
+          );
     }
   }
 
-  // dispose the TextEditingController and FocusNode
-  // when the widget is disposed
   @override
   void dispose() {
-    super.dispose();
     _pinController.dispose();
     _pinFocus.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Pinput(
-      length: 6,
-      focusNode: _pinFocus,
-      controller: _pinController,
-      onCompleted: onCompleted,
-      defaultPinTheme: defaultPinTheme(context),
-      focusedPinTheme: focusedPinTheme(context),
-      submittedPinTheme: submittedPinTheme(context),
-      errorPinTheme: errorPinTheme(context),
+    return BlocListener<AuthenticationBloc, AuthenticationState>(
+      listener: (context, state) {
+        if (state is NavigateToHome) {
+          context.go(Constants.routeHome);
+        } else if (state is NavigateToUserInformation) {
+          context.go(Constants.routeUserInformationScreen);
+        } else if (state is VerifyOtpCodeFailure) {
+          THelperFunctions.showToastBar(
+            context,
+            color: Theme.of(context).colorScheme.errorContainer,
+            TextWidget(state.error),
+          );
+        }
+      },
+      child: Column(
+        children: [
+          Pinput(
+            length: 6,
+            focusNode: _pinFocus,
+            controller: _pinController,
+            onCompleted: onCompleted,
+            defaultPinTheme: defaultPinTheme(context),
+            focusedPinTheme: focusedPinTheme(context),
+            submittedPinTheme: submittedPinTheme(context),
+            errorPinTheme: errorPinTheme(context),
+          ),
+          TSize.s48.toHeight,
+          BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            builder: (context, state) {
+              if (state is VerifyOtpCodeLoading) {
+                return const CircularProgressIndicator();
+              } else if (state is VerifyOtpCodeSuccess) {
+                return const TextWidget(
+                  'OTP Verification Successful',
+                  style: TextStyle(color: Colors.green),
+                );
+              } else if (state is VerifyOtpCodeFailure) {
+                return const TextWidget('Verification failed');
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+        ],
+      ),
     );
   }
 
