@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '/core/_core.dart';
 import '/config/_config.dart';
@@ -7,6 +8,7 @@ import '/features/authentication/domain/domain.dart';
 
 class FirebaseAuthService implements IFirebaseAuthService {
   final _auth = sl<FirebaseAuth>();
+  String _phoneNumber = '';
   UserCredential? _userCredential;
 
   UserCredential? get userCredential => _userCredential;
@@ -14,6 +16,8 @@ class FirebaseAuthService implements IFirebaseAuthService {
   @override
   Future<void> signInWithPhoneNumber(String phoneNumber) async {
     try {
+      _phoneNumber = phoneNumber;
+
       await _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: _verificationCompleted,
@@ -44,29 +48,38 @@ class FirebaseAuthService implements IFirebaseAuthService {
   }
 
   void _codeSent(String verificationId, int? resendToken) async {
-    // try {
-    //   // Update the UI - wait for the user to enter the SMS code
-    //   String smsCode = 'xxxx';
+    NavigationService.navigatorKey.currentContext!.go(
+      Constants.otpScreen,
+      extra: {
+        Constants.verificationId: verificationId,
+        Constants.phoneNumber: _phoneNumber,
+      },
+    );
+  }
 
-    //   // Create a PhoneAuthCredential with the code
-    //   PhoneAuthCredential credential = PhoneAuthProvider.credential(
-    //     verificationId: verificationId,
-    //     smsCode: smsCode,
-    //   );
+  // verify otp code
+  @override
+  Future<void> verifyOtpCode({required String otpCode, required String verificationId}) async {
+    try {
+      // Create a PhoneAuthCredential with the code
+      final PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: otpCode,
+      );
 
-    //   THelperFunctions.showToastBar(
-    //     NavigationService.navigatorKey.currentContext!,
-    //     const TextWidget("Code has been sent!"),
-    //   );
+      THelperFunctions.showToastBar(
+        NavigationService.navigatorKey.currentContext!,
+        const TextWidget("Code has been sent!"),
+      );
 
-    //   // Sign the user in (or link) with the credential
-    //   await _auth.signInWithCredential(credential);
-    // } catch (e) {
-    //   THelperFunctions.showToastBar(
-    //     NavigationService.navigatorKey.currentContext!,
-    //     color: Theme.of(NavigationService.navigatorKey.currentContext!).colorScheme.errorContainer,
-    //     TextWidget(e.toString()),
-    //   );
-    // }
+      // Sign the user in (or link) with the credential
+      await _auth.signInWithCredential(credential);
+    } catch (e) {
+      THelperFunctions.showToastBar(
+        NavigationService.navigatorKey.currentContext!,
+        color: Theme.of(NavigationService.navigatorKey.currentContext!).colorScheme.errorContainer,
+        TextWidget(e.toString()),
+      );
+    }
   }
 }

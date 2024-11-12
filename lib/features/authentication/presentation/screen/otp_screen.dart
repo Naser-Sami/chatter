@@ -1,6 +1,5 @@
-import 'package:pinput/pinput.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '/core/_core.dart';
 import '/config/_config.dart';
@@ -11,6 +10,12 @@ class OtpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the extra data from the GoRouter state
+    final goRouteState = GoRouterState.of(context).extra as Map<String, dynamic>;
+
+    // Extract the phoneNumber from the extra data
+    final phoneNumber = goRouteState[Constants.phoneNumber];
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -27,7 +32,7 @@ class OtpScreen extends StatelessWidget {
               TSize.s48.toHeight,
               Center(
                 child: Text(
-                  'We have sent the a 6 digits code verification to your phone number ${context.read<LoginCubit>().state.phoneNumber}',
+                  'We have sent the a 6 digits code verification to your phone number $phoneNumber',
                   style: Theme.of(context).textTheme.titleMedium,
                   textAlign: TextAlign.center,
                 ),
@@ -54,96 +59,4 @@ class OtpScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class PinputWidget extends StatefulWidget {
-  const PinputWidget({super.key});
-
-  @override
-  State<PinputWidget> createState() => PinputWidgetState();
-}
-
-class PinputWidgetState extends State<PinputWidget> {
-  late final TextEditingController _pinController;
-  late final FocusNode _pinFocus;
-  String? _otpCode;
-
-  @override
-  void initState() {
-    super.initState();
-    _pinController = TextEditingController();
-    _pinFocus = FocusNode();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _pinController.dispose();
-    _pinFocus.dispose();
-  }
-
-  void onCompleted(String pin) {
-    setState(() {
-      _otpCode = pin;
-    });
-
-    // verify otp code
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Pinput(
-      length: 6,
-      focusNode: _pinFocus,
-      controller: _pinController,
-      onCompleted: onCompleted,
-      defaultPinTheme: defaultPinTheme(context),
-      focusedPinTheme: focusedPinTheme(context),
-      submittedPinTheme: submittedPinTheme(context),
-      errorPinTheme: errorPinTheme(context),
-    );
-  }
-
-  PinTheme? defaultPinTheme(BuildContext context) => PinTheme(
-        width: 60,
-        height: 60,
-        textStyle: Theme.of(context).textTheme.titleLarge,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(TPadding.p12),
-          border: Border.all(color: Theme.of(context).colorScheme.primary),
-        ),
-      );
-
-  PinTheme? focusedPinTheme(BuildContext context) => PinTheme(
-        width: 60,
-        height: 60,
-        textStyle: Theme.of(context).textTheme.titleLarge,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(TPadding.p12),
-          border: Border.all(color: Theme.of(context).colorScheme.primary),
-        ),
-      );
-
-  PinTheme? submittedPinTheme(BuildContext context) => PinTheme(
-        width: 60,
-        height: 60,
-        textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: Theme.of(context).colorScheme.tertiary,
-              fontWeight: FontWeight.w900,
-            ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(TPadding.p12),
-          border: Border.all(color: Theme.of(context).colorScheme.tertiary),
-        ),
-      );
-
-  PinTheme? errorPinTheme(BuildContext context) => PinTheme(
-        width: 60,
-        height: 60,
-        textStyle: Theme.of(context).textTheme.titleLarge,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(TPadding.p12),
-          border: Border.all(color: Theme.of(context).colorScheme.error),
-        ),
-      );
 }

@@ -85,7 +85,7 @@ class _LoginFormsWidgetState extends State<LoginFormsWidget> {
               if (state is LoginFailure) {
                 return IconButton(
                   onPressed: () {
-                    _btnController.reset();
+                    _btnController.error();
                     _formKey.currentState?.validate();
                   },
                   icon: const Icon(

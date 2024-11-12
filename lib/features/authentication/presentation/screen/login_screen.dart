@@ -1,6 +1,4 @@
-import 'package:chatter/core/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '/core/_core.dart';
 import '/config/_config.dart';
@@ -26,6 +24,7 @@ class LoginScreenBody extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(TPadding.p48),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const LottieAssetWidget(
                   height: 200,
@@ -34,7 +33,7 @@ class LoginScreenBody extends StatelessWidget {
                 ),
                 TSize.s24.toHeight,
                 TextWidget(
-                  "C H A T T E R",
+                  Constants.appName,
                   style: context.textTheme.displayMedium,
                 ),
                 TSize.s24.toHeight,
@@ -45,14 +44,6 @@ class LoginScreenBody extends StatelessWidget {
                 ),
                 TSize.s48.toHeight,
                 const LoginFormsWidget(),
-                TSize.s48.toHeight,
-                TextButton(
-                  onPressed: () => context.go('/otp-verification'),
-                  child: TextWidget(
-                    "Send Code",
-                    style: context.textTheme.bodyMedium,
-                  ),
-                ),
               ],
             ),
           ),

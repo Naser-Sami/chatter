@@ -7,7 +7,7 @@ import '/features/_features.dart';
 
 // GoRouter configuration
 final router = GoRouter(
-  initialLocation: '/',
+  initialLocation: Constants.routeLogin,
   // Add your navigator observers
   observers: [AppNavigatorObserver()],
   navigatorKey: NavigationService.navigatorKey, // Set the navigatorKey
@@ -17,8 +17,8 @@ final router = GoRouter(
   },
   routes: [
     GoRoute(
-      name: 'login',
-      path: '/',
+      name: 'Login',
+      path: Constants.routeLogin,
       pageBuilder: (context, state) => fadeTransitionPage(
         context,
         state,
@@ -36,8 +36,8 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
-      name: 'otp-verification',
-      path: '/otp-verification',
+      name: 'O.T.P',
+      path: Constants.otpScreen,
       pageBuilder: (context, state) => fadeTransitionPage(
         context,
         state,
@@ -46,6 +46,25 @@ final router = GoRouter(
           child: const OtpScreen(),
         ),
       ),
+    ),
+    GoRoute(
+      name: 'User-Information',
+      path: Constants.userInformationScreen,
+      pageBuilder: (context, state) {
+        // final data = state.extra as Map<String, dynamic>;
+
+        // final verificationId = data[Constants.verificationId];
+        // final phoneNumber = data[Constants.phoneNumber];
+
+        return fadeTransitionPage(
+          context,
+          state,
+          BlocProvider.value(
+            value: sl<LoginCubit>(),
+            child: const UserInformationScreen(),
+          ),
+        );
+      },
     ),
   ],
 );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Files
+import '/core/_core.dart';
 import '/config/_config.dart';
 
 class MyApp extends StatelessWidget {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: MaterialApp.router(
-            title: 'C H A T T E R',
+            title: Constants.appName,
             debugShowCheckedModeBanner: false,
             themeMode: state,
             theme: lightTheme,
