@@ -42,12 +42,14 @@ class PinputWidgetState extends State<PinputWidget> {
   void verifyOtpCode() {
     getExtraData();
     if (_otpCode != null) {
-      context.read<AuthenticationBloc>().add(
-            VerifyOtpCodeEvent(
-              otpCode: _otpCode!,
-              verificationId: verificationId,
-            ),
-          );
+      final bloc = context.read<AuthenticationBloc>();
+
+      bloc.add(
+        VerifyOtpCodeEvent(
+          otpCode: _otpCode!,
+          verificationId: verificationId,
+        ),
+      );
     }
   }
 
@@ -89,17 +91,19 @@ class PinputWidgetState extends State<PinputWidget> {
           TSize.s48.toHeight,
           BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
-              if (state is VerifyOtpCodeLoading) {
-                return const CircularProgressIndicator();
-              } else if (state is VerifyOtpCodeSuccess) {
-                return const TextWidget(
-                  'OTP Verification Successful',
-                  style: TextStyle(color: Colors.green),
-                );
-              } else if (state is VerifyOtpCodeFailure) {
-                return const TextWidget('Verification failed');
+              switch (state) {
+                case VerifyOtpCodeLoading():
+                  return const CircularProgressIndicator();
+                case VerifyOtpCodeSuccess():
+                  return const TextWidget(
+                    'OTP Verification Successful',
+                    style: TextStyle(color: Colors.green),
+                  );
+                case VerifyOtpCodeFailure():
+                  return const TextWidget('Verification failed');
+                default:
+                  return const SizedBox.shrink();
               }
-              return const SizedBox.shrink();
             },
           ),
         ],

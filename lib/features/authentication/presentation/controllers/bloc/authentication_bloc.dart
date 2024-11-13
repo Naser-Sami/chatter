@@ -26,11 +26,11 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
   }
 
-  void _onVerifyOtpCode(VerifyOtpCodeEvent event, Emitter<AuthenticationState> emit) {
+  Future<void> _onVerifyOtpCode(VerifyOtpCodeEvent event, Emitter<AuthenticationState> emit) async {
     emit(VerifyOtpCodeLoading());
 
     try {
-      firebaseAuthService.verifyOtpCode(
+      await firebaseAuthService.verifyOtpCode(
         otpCode: event.otpCode,
         verificationId: event.verificationId,
         onSuccess: () => add(const OtpVerificationSuccessEvent()),
@@ -41,33 +41,29 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   Future<void> _onSuccess(OtpVerificationSuccessEvent event, Emitter<AuthenticationState> emit) async {
-    try {
-      emit(VerifyOtpCodeSuccess());
+    emit(VerifyOtpCodeSuccess());
 
-      // -> auth service
-      final auth = sl<IFirebaseAuthService>();
+    // -> auth service
+    final auth = sl<IFirebaseAuthService>();
 
-      // Check if the user exist in the database
-      final isUserExists = await auth.checkIfUserExist();
+    // Check if the user exist in the database
+    final isUserExists = await auth.checkIfUserExist();
 
-      // If the user exist, navigate to the home screen
-      if (isUserExists) {
-        // - Get user data from the firestore
-        auth.userModel = await auth.getUserData();
+    // If the user exist, navigate to the home screen
+    if (isUserExists) {
+      // - Get user data from the firestore
+      auth.userModel = await auth.getUserData();
 
-        // - Save user data to the local storage
-        auth.saveUserDataToLocalStorage();
+      // - Save user data to the local storage
+      auth.saveUserDataToLocalStorage();
 
-        // navigate to the home scree
-        emit(NavigateToHome());
-      }
+      // navigate to the home scree
+      emit(NavigateToHome());
+    }
 
-      // If the user does not exist, navigate to user information screen
-      else {
-        emit(NavigateToUserInformation());
-      }
-    } catch (e) {
-      emit(VerifyOtpCodeFailure(error: e.toString()));
+    // If the user does not exist, navigate to user information screen
+    else {
+      emit(NavigateToUserInformation());
     }
   }
 }

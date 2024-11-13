@@ -67,33 +67,24 @@ class FirebaseAuthService implements IFirebaseAuthService {
         Constants.phoneNumber: _phoneNumber,
       },
     );
-
-    log('Code sent to $_phoneNumber');
-    log('Verification ID: $verificationId');
   }
 
   // verify otp code
   @override
   Future<void> verifyOtpCode({required String otpCode, required String verificationId, required Function onSuccess}) async {
-    try {
-      // Create a PhoneAuthCredential with the code
-      final PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId,
-        smsCode: otpCode,
-      );
-      log('OTP Code to $otpCode');
-      log('Verification ID: $verificationId');
+    // Create a PhoneAuthCredential with the code
+    final PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: verificationId,
+      smsCode: otpCode,
+    );
 
-      // Sign the user in (or link) with the credential
-      await _auth.signInWithCredential(credential).then((val) {
-        onSuccess();
-      });
+    // Sign the user in (or link) with the credential
+
+    try {
+      await _auth.signInWithCredential(credential);
+      onSuccess();
     } catch (e) {
-      THelperFunctions.showToastBar(
-        NavigationService.navigatorKey.currentContext!,
-        color: Theme.of(NavigationService.navigatorKey.currentContext!).colorScheme.errorContainer,
-        TextWidget(e.toString()),
-      );
+      throw Exception(e.toString());
     }
   }
 
@@ -101,8 +92,6 @@ class FirebaseAuthService implements IFirebaseAuthService {
   @override
   Future<bool> checkIfUserExist() async {
     final uid = _auth.currentUser?.uid;
-
-    log('user id: $uid');
 
     DocumentSnapshot snapshot = await _firestore.collection(Constants.firestoreCollectionUsers).doc(uid).get();
 
@@ -113,7 +102,6 @@ class FirebaseAuthService implements IFirebaseAuthService {
   @override
   Future<UserModel> getUserData() async {
     final uid = _auth.currentUser?.uid;
-    log('user id: $uid');
 
     final snapshot = await _firestore.collection(Constants.firestoreCollectionUsers).doc(uid).get();
     final userData = UserModel.fromMap(snapshot.data() as Map<String, dynamic>);
