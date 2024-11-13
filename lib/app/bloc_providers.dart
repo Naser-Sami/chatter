@@ -13,4 +13,7 @@ final providers = [
   BlocProvider<CountryPickerCubit>(
     create: (context) => sl<CountryPickerCubit>(),
   ),
+  BlocProvider<ImageCubit>(
+    create: (context) => sl<ImageCubit>(),
+  ),
 ];

@@ -3,6 +3,7 @@ import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 
 import '/core/_core.dart';
 import '/config/_config.dart';
+import '/features/_features.dart';
 
 class UserInformationScreen extends StatefulWidget {
   const UserInformationScreen({super.key});
@@ -34,6 +35,9 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        leading: BackArrowWidget(
+          onPressed: () => Navigator.pop(context),
+        ),
         title: Text(
           'User Information',
           style: Theme.of(context).textTheme.titleLarge,
@@ -48,39 +52,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TSize.s48.toHeight,
-                Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 60,
-                      backgroundColor: context.theme.colorScheme.surfaceContainer,
-                      child: const Icon(
-                        Icons.person,
-                        size: 60,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: -5,
-                      right: -5,
-                      child: IconButton(
-                        onPressed: () {},
-                        padding: EdgeInsets.zero,
-                        icon: Container(
-                          height: 30,
-                          width: 30,
-                          decoration: BoxDecoration(
-                            color: context.theme.colorScheme.onPrimaryContainer,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.camera_alt,
-                            size: 18,
-                            color: context.theme.colorScheme.onPrimary,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                const ProfileImagePickerWidget(),
                 TSize.s96.toHeight,
                 TextFormField(
                   controller: _nameController,

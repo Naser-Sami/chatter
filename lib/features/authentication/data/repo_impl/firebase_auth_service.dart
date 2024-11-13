@@ -38,11 +38,7 @@ class FirebaseAuthService implements IFirebaseAuthService {
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
     } catch (e) {
-      THelperFunctions.showToastBar(
-        NavigationService.navigatorKey.currentContext!,
-        color: Theme.of(NavigationService.navigatorKey.currentContext!).colorScheme.errorContainer,
-        TextWidget(e.toString()),
-      );
+      throw Exception(e.toString());
     }
   }
 

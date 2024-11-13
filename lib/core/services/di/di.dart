@@ -36,6 +36,10 @@ class DI {
       () => LoginCubit(),
     );
 
+    sl.registerLazySingleton<ImageCubit>(
+      () => ImageCubit(),
+    );
+
     // LOCAL STORAGE
 
     // Firebase

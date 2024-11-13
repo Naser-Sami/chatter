@@ -16,10 +16,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     on<OtpVerificationSuccessEvent>(_onSuccess);
   }
 
-  void _onLoginButtonPressed(LoginButtonPressedEvent event, Emitter<AuthenticationState> emit) {
+  Future<void> _onLoginButtonPressed(LoginButtonPressedEvent event, Emitter<AuthenticationState> emit) async {
     emit(LoginLoading());
     try {
-      firebaseAuthService.signInWithPhoneNumber(event.phoneNumber);
+      await firebaseAuthService.signInWithPhoneNumber(event.phoneNumber);
       emit(LoginSuccess());
     } catch (e) {
       emit(LoginFailure(error: e.toString()));
