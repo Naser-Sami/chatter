@@ -4,7 +4,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 // Files
 import '/core/_core.dart';
-import '/config/_config.dart';
 
 class TFunctions {
   TFunctions._();

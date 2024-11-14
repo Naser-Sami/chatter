@@ -4,6 +4,26 @@
     "project_id": "chatter-cfe01",
     "storage_bucket": "chatter-cfe01.firebasestorage.app"
   },
-  "client": [],
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:778031503453:android:30753b2487d400335215b4",
+        "android_client_info": {
+          "package_name": "com.naser.ebedo.chatter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaStMH2ds2n-H1e3ZMedXFXOC0jcZJ9L0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
   "configuration_version": "1"
 }

@@ -1,4 +1,4 @@
-package com.naser_ebedo.chatter
+package com.naser.ebedo.chatter
 
 import io.flutter.embedding.android.FlutterActivity
 
